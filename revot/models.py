@@ -13,15 +13,26 @@ def get_object_or_404(model, *criterion):
     except exc.NoResultFound, exc.MultipleResultsFound:
         abort(404)
 
+class User(db.Model):
+    __tablename__ = 'users'
+    id           = db.Column(db.String(50), primary_key=True)
+    password     = db.Column(db.String(50))
+
+    def __init__(self, id, password):
+        self.id = id
+        self.password = password
+
+    def get(self, id):
+        return db.session.query(User).filter(User.id=id)
 
 class Voting(db.Model):
     __tablename__ = 'votings'
-    
+
     id           = db.Column(db.Integer, primary_key=True)
     title        = db.Column(db.String(20))
     description  = db.Column(db.String(200))
     locale       = db.Column(db.String(2))
-    owner        = db.Column(db.String(50))
+    owner        = db.Column(db.String(50), db.ForeignKey('users.id'))
     send_ballot  = db.Column(db.DateTime)
     start_voting = db.Column(db.DateTime)
     end_voting   = db.Column(db.DateTime)
@@ -33,7 +44,7 @@ class Voting(db.Model):
                                 backref='voting',
                                 cascade="all, delete, delete-orphan")
 
-    
+
     def __init__(self, title, lang, owner, send_ballot, start, end, desc=None):
         self.description = desc
         self.locale = lang
@@ -75,7 +86,7 @@ class Voting(db.Model):
             join(Voting).\
             filter(Voting.id == self.id).\
             count()
-        
+
     def results(self):
         """
         Returns the (partial) results of the voting
@@ -96,7 +107,7 @@ class Voting(db.Model):
             result      = sorted([(options[i], votes) for i,votes in res_num],
                                  key=itemgetter(1), reverse=True)
         )
-        
+
     def __repr__(self):
         return '<Votation %r>' % (self.title)
 
@@ -106,7 +117,7 @@ A voter is a registered person in an actual voting
 """
 class Voter(db.Model):
     __tablename__ = 'voters'
-    
+
     id                = db.Column(db.Integer, primary_key=True)
     voting_id         = db.Column(db.Integer, db.ForeignKey('votings.id'))
 
@@ -135,9 +146,9 @@ class Voter(db.Model):
             filter(Voter.id == self.id).all()
         options = self.voting.ballot.full_options
         return [ options[v[0]] for v in r]
-    
+
     def do_vote(self, *args):
-        # falta checks i saltar excepcions. 
+        # falta checks i saltar excepcions.
         self.ballot_received = dt.utcnow()
         if len(args) == 0:
             self.vote.append(Vote(-1))
@@ -149,13 +160,13 @@ class Voter(db.Model):
         return '<Voter %r(%r)>' % (self.name, self.identity)
 
 
-""" 
-Defines a ballot in an actual voting. 
+"""
+Defines a ballot in an actual voting.
 A ballot is a sequence of M options from which 0<=N<=M can be choosed.
 """
 class Ballot(db.Model):
     __tablename__ = 'ballots'
-    
+
     id                = db.Column(db.Integer, primary_key=True)
     voting_id         = db.Column(db.Integer, db.ForeignKey('votings.id'))
 
@@ -175,7 +186,7 @@ class Ballot(db.Model):
     @hybrid_property
     def full_options(self):
         return self.options + [lazy_gettext(u'Blank vote')] # to recognize blank votes
-        
+
     def __repr__(self):
         return '<Ballot %r (%i of %i)>' % (self.options, self.M, self.Nmax)
 
@@ -187,7 +198,7 @@ number of votes are registered. A vote of -1 value means a blank vote.
 """
 class Vote(db.Model):
     __tablename__ = 'votes'
-    
+
     voter_id         = db.Column(db.Integer, db.ForeignKey('voters.id'), primary_key=True)
     vote             = db.Column(db.SmallInteger, primary_key=True, nullable=True)
 
@@ -201,7 +212,6 @@ class Vote(db.Model):
             filter(voter.id == self.voter_id).all()
         return r
 
-        
+
     def __repr__(self):
         return '<Vote %i %i>' % (self.voter_id, self.vote)
-

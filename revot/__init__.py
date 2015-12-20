@@ -21,7 +21,7 @@ class Celery(CeleryClass):
         """
         If app argument provided then initialize celery using application
         config values.  If no app argument provided you should do
-        initialization later with `init_app` method.  
+        initialization later with `init_app` method.
 
         Args:
            app: Flask application instance.
@@ -29,12 +29,12 @@ class Celery(CeleryClass):
         """
         if app is not None:
             self.init_app(app)
-            
+
     def init_app(self, app):
         """Actual method to read celery settings from `app` configuration and
-        initialize the celery instance.  
+        initialize the celery instance.
 
-        Args: 
+        Args:
            app: Flask application instance.
 
         """
@@ -53,11 +53,18 @@ nav       = Nav()
 celery    = Celery()
 mail      = Mail()
 babel     = Babel()
+login_manager = LoginManager()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    from revot.models import User
+    return User.get(user_id)
 
 
 def create_app(config_name):
     """
-    Flask app factory. Creates an app for Flask application after setting 
+    Flask app factory. Creates an app for Flask application after setting
     up configurations, Flask extensions and project blueprints,
     """
     app = Flask('revot')
@@ -71,6 +78,7 @@ def create_app(config_name):
     mail.init_app(app)
     celery.init_app(app)
     babel.init_app(app)
+    login_manager.init_app(app)
 
     # Register blueprints
     from main import main as main_blueprint
@@ -81,5 +89,5 @@ def create_app(config_name):
 
     from navigation import navigation as navigation_blueprint
     app.register_blueprint(navigation_blueprint)
-    
+
     return app

@@ -8,11 +8,34 @@ from revot import db
 from forms import BallotForm, VotingForm
 from tasks import activate_balloting
 from flask.ext.babel import gettext
+from flask.ext.login import login_required
 
 
 @main.before_request
 def before_request():
     g.locale = get_locale()
+
+@main.route('/login', methods=['GET', 'POST'])
+def login():
+    # Here we use a class of some kind to represent and validate our
+    # client-side form data. For example, WTForms is a library that will
+    # handle this for us, and we use a custom LoginForm to validate.
+    form = LoginForm()
+    if form.validate_on_submit():
+        # Login and validate the user.
+        # user should be an instance of your `User` class
+        login_user(user)
+
+        flask.flash('Logged in successfully.')
+
+        next = flask.request.args.get('next')
+        # next_is_valid should check if the user has valid
+        # permission to access the `next` url
+        if not next_is_valid(next):
+            return flask.abort(400)
+
+        return flask.redirect(next or flask.url_for('index'))
+    return flask.render_template('login.html', form=form)
 
 
 @main.route('/')
@@ -21,6 +44,7 @@ def welcome_users():
     return render_template('welcome.html', vote_page=vote_page)
 
 @main.route('/voting')
+@login_required
 def show_all_votings():
     # fetch current votations
     v = [ (v, url_for('main.show_voting', ident=v.id))
@@ -29,6 +53,7 @@ def show_all_votings():
 
 
 @main.route('/voting/<int:ident>')
+@login_required
 def show_voting(ident):
     # FALTA considerar l'owner
     voting = get_object_or_404(Voting, Voting.id == ident)
@@ -64,6 +89,7 @@ def show_ballot(ident):
 
 
 @main.route('/voting/<int:ident>/<person>', methods=['GET', 'POST'])
+@login_required
 def do_vote(ident, person):
     # assert voting is open to vote  else redirect to voting page
     voting = get_object_or_404(Voting, Voting.id == ident)
@@ -93,7 +119,7 @@ def do_vote(ident, person):
         voter.do_vote(*form.options.data)
         flash(gettext('Thank you for voting'))
         return redirect(url_for('main.show_voting', ident=ident))
-    # send TEMPLATE    
+    # send TEMPLATE
     return render_template('cast-ballot.html',
                            form=form,
                            voting=voter.voting,
@@ -101,6 +127,7 @@ def do_vote(ident, person):
 
 
 @main.route('/voting/add', methods=['GET', 'POST'])
+@login_required
 def add_voting():
     form = VotingForm()
     # setup late choices
@@ -157,17 +184,6 @@ def add_voting():
         db.session.commit()
         # Redirect to the voting
         return redirect(url_for('main.show_voting', ident=v.id))
-    
-    # send TEMPLATE    
+
+    # send TEMPLATE
     return render_template('edit-voting.html', form=form)
-
-
-
-
-
-
-
-    
-
-
-
