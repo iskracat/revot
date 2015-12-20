@@ -1,0 +1,35 @@
+{# -*- engine: jinja -*- #}
+{% trans id=d.title, name=d.name, s=d.starts, e=d.ends -%}
+Hello {{name}},
+
+You have been enrolled in the voting identified as «{{id}}».
+
+The polling station will remain open from {{s}} to {{e}} (Manresa time). To cast your ballot please follow the following link while polling station is open.
+{%- endtrans %}
+
+{{d.url}} 
+
+{% trans -%}
+For you interest, we show below the ballot corresponding to this voting.
+{%- endtrans %}
+
+{% trans m=d.maxopt -%}
+You will be commited to choose one option.
+{% pluralize %}
+You will be commited to choose a maximum of {{m}} options.
+{%- endtrans -%}
+{%- if d.blank -%}
+{{_('Blank votes are allowed.')}}
+{%- else -%}
+{{_('Blank votes are not allowed.')}}
+{%- endif %}
+
+========================================================================
+{{d.question}}
+
+{% for option in d.options %}
+{{loop.index}}. {{option}}
+{% endfor %}
+========================================================================
+
+ReVot - e-vote selfservice

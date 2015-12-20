@@ -1,0 +1,49 @@
+{# -*- engine: jinja -*- #}
+
+{% extends "base.html" %}
+
+{% import "common-macros.html" as macros %}
+
+
+{% block page_content %}
+
+  <h2>
+    {{ _('Vote details') }}
+  </h2>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{_('Call for voting')}} «{{voting.title}}»
+    </div>
+
+    <div class="panel-body">
+      {% if voting.description %}
+	<p>{{voting.description}}</p>
+      {% endif %}
+
+      <table class="table table-bordered">
+	<thead>
+	  <tr>
+	    <th>{{_('Officer')}}</th>
+	    <th>{{_('Ballot sending')}}</th>
+	    <th>{{_('Starts')}}</th>
+	    <th>{{_('Ends')}}</th>
+	    <th>{{_('State')}}</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+	    <td>{{voting.owner}}</td>
+	    <td>{{ moment(voting.send_ballot).format('llll') }}</td>
+	    <td>{{ moment(voting.start_voting).format('llll') }}</td>
+	    <td>{{ moment(voting.end_voting).format('llll') }}</td>
+	    <td>{{ macros.state_pill(voting) }}</td>
+	  </tr>
+	</tbody>
+      </table>
+    </div>
+  </div>
+
+  {% block voting_content %}{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,161 @@
+{# -*- engine: jinja -*- #}
+
+{% extends "voting-base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+  <style>
+  .ct-label {font-size:100%}
+  .ct-bar   {stroke-width:2em}
+  .nav-tabs {margin-bottom:1em}
+  </style>
+{% endblock %}
+
+{% block scripts%}
+  {{ super() }}
+  <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+  <script>
+  var options = {
+    axisY: {onlyInteger: true},
+  };
+
+  var votesdata = {
+    labels: [ {% for option, ign in result.result %} '{{option}}', {% endfor %} ],
+    series: [[ {% for ign, votes in result.result %} {{votes}}, {% endfor %} ]]
+  };
+  
+  new Chartist.Bar('.votes-chart', votesdata, options);
+  
+  $("a[href='#charts']").on('shown.bs.tab', function(e) {
+    document.querySelector('.votes-chart').__chartist__.update();
+  });
+</script>
+{% endblock %}
+
+
+
+
+
+{% block voting_content %}
+
+  <ul class="nav nav-tabs lead">
+    <li class="active">
+      <a data-toggle="tab" href="#res-table">
+	{{_('Count')}}
+      </a>
+    </li>
+    {% if result.votes > 0 %} {# Avoid this info if no votes #}
+      <li>
+	<a data-toggle="tab" href="#charts">
+	  {{_('Charts')}}
+	</a>
+      </li>
+      <li>
+	<a data-toggle="tab" href="#ballot-box">
+	  {{_('Ballot box content')}}
+	</a>
+      </li>
+    {% endif %}
+  </ul>
+
+  
+  <div class="tab-content">
+
+    <div id="res-table" class="tab-pane fade-in active">
+      <div class="panel-group">
+	<div class="panel panel-default">
+	  <div class="panel-heading">{{_('Turnout')}}</div>
+	  <div class="panel-body">
+	    <table class="table table-bordered">
+	      <thead>
+		<tr>
+		  <th></th>
+		  <th>{{_('Enrolled')}}</th>
+		  <th>{{_('Votes')}}</th>
+		  <th>{{_('Abstentions')}}</th>
+		</tr>
+	      </thead>
+	      <tbody>
+		<tr>
+		  <th>{{_('Number')}}</th>
+		  <td>{{ result.enrolled }}</td>
+		  <td>{{ result.votes }}</td>
+		  <td>{{ result.abstentions }}</td>
+		</tr>
+		<tr>
+		  <th>{{_('Percent')}}</th>
+		  <td></td>
+		  <td>{{ '{0:5.2f}%'.format(100.0*result.votes/result.enrolled) }}</td>
+		  <td>{{ '{0:5.2f}%'.format(100.0*result.abstentions/result.enrolled) }}</td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+
+	{% if result.votes > 0 %} {# Avoid this panel if no votes #}
+	  <div class="panel panel-default">
+	    <div class="panel-heading">{{_('Results')}}</div>
+	    <div class="panel-body">
+	      <table class="table table-bordered">
+		<thead>
+		  <tr>
+		    <th>{{_('Option')}}</th>
+		    <th>{{_('Votes')}}</th>
+		    <th>{{_('Percent over all votes')}}</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  {% for option,votes in result.result %}
+		    <tr>
+		      <td>{{ option }}</td>
+		      <td>{{ votes }} </td>
+		      <td>{{ '{0:5.2f}%'.format(100.0*votes/result.votes) }}</td>
+		    </tr>
+		  {% endfor %}
+		</tbody>
+	      </table>
+	    </div>
+	  </div>
+	{% endif %}
+      </div>
+    </div>
+
+    {% if result.votes > 0 %}
+      <div id="charts" class="tab-pane fade">
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    {{_('Number of votes per option')}}</div>
+	  <div class="panel-body">
+            <div class="votes-chart ct-golden-section"></div>
+	  </div>
+	</div>
+      </div>
+
+      <div id="ballot-box" class="tab-pane fade">
+	<table class="table table-bordered">
+	  <thead>
+	    <tr>
+	      <th></th>
+	      <th>{{_('Voter')}}</th>
+	      <th>{{_('Ballot cast on')}}</th>
+	      <th>{{_('Choice')}}</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for v in voters if v.voted %}
+	      <tr>
+		<td> {{ loop.index }} </td>
+		<td> {{ v.identity }} </td>
+		<td> {{ moment(v.ballot_received).format('lll') }} </td>
+		<td> {% for vot in v.voted_options %} {{vot}} {% endfor %}</td>
+	      </tr>
+	    {% endfor %}
+	  </tbody>
+	</table>
+      </div>
+    {% endif %}
+  </div>
+
+{% endblock %}

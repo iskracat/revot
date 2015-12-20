@@ -1,0 +1,39 @@
+{# -*- engine: jinja -*- #}
+
+{% extends "base.html" %}
+{% import "common-macros.html" as macros %}
+
+
+{% block page_content %}
+
+<h2>
+  {{ _('Current votings') }}
+</h2>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>{{ _('Voting') }}</th>
+      <th>{{ _('Starts') }}</th>
+      <th>{{ _('Ends') }}</th>
+      <th>{{ _('State') }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v,l in votings %}
+    <tr class="clickable-row" data-href="{{ l }}">
+      <td>{{ v.title }}</td>
+      <td>{{ moment(v.start_voting).calendar() }}</td>
+      <td>{{ moment(v.end_voting).fromTime(v.start_voting) }}</td>
+      <td>{{ macros.state_pill(v) }}</td>
+    </tr>
+    {% else %}
+    <tr>
+      <td>{{ _('No current votings now') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+

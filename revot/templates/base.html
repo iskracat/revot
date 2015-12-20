@@ -1,0 +1,39 @@
+{# -*- engine: jinja -*- #}
+
+{% extends "bootstrap/base.html" %}
+
+{% block title %} ReVot — vote selfservice {% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+
+{{ moment.locale(g.locale) }}
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.document.location = $(this).data("href");
+    });
+  });
+</script>
+{% endblock %}
+
+{% block navbar %}
+{{ nav.top.render() }}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  {% for message in get_flashed_messages() %}
+  <div class="alert alert-warning">
+     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    {{ message }}
+  </div>
+  {% endfor %}
+
+
+  {% block page_content %}{% endblock %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css"/>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js"></script>
+
+<script>
+$(function(){
+   $("input").parents(".datetime").datetimepicker({
+      format: 'lll',
+      useCurrent: true
+   });
+   {#
+   $("#starts").parents(".datetime").on("dp.change", function (e) {
+      e.preventDefault();
+      $('#ends').parents(".datetime").data("DateTimePicker")
+	 .minDate(e.date);
+      $('#ballot_sending').parents(".datetime").data("DateTimePicker")
+	 .maxDate(e.date.substract(1, 'day'));
+   });
+   $("#ends").parents(".datetime").on("dp.change", function (e) {
+      e.preventDefault();
+      $('#starts').parents(".datetime").data("DateTimePicker").maxDate(e.date);
+   });
+   $("#ballot_sending").parents(".datetime").on("dp.change", function (e) {
+      e.preventDefault();
+      $('#starts').parents(".datetime").data("DateTimePicker")
+	 .minDate(e.date.add(1, 'day'));
+   });
+   #}
+});
+</script>
+
+<script>
+// Transform datetimes from locale to UTC before sending
+$("form").submit(function(){
+   $(this).find(".datetime input").each( function( index, element ){
+      var val = $(element).val();
+      if (val) {
+	 var utcval = moment(val, "lll").utc().format("YYYY-MM-DD HH:mm:ss");
+	 $(element).val(utcval);
+      }
+   });
+});
+// Transforms datetimes from UTC to local when showing form
+$(function(){
+   $(".datetime input").each( function( index, element ){
+      var val = element.getAttribute('value');
+      if (val) {
+	 var utcval = moment.utc(val, "YYYY-MM-DD HH:mm:ss").local().format('lll');
+	 $(element).val(utcval);
+      }
+   });
+});
+</script>
+
+<script>
+$(function(){
+   $(document).on('click', '.btn-add', function(e){
+      // Adds a new item to a list
+      e.preventDefault();
+      var controlForm = $('#options'),
+	 currentEntry = controlForm.children().last();
+      var id_currentEntry = currentEntry.find('input').attr("id").split("-")[1];
+      var newEntry = $(currentEntry.clone()).appendTo(controlForm);
+      var entryId = "options-" + (++id_currentEntry).toString();
+      
+      newEntry.find('input').attr({"id" : entryId, "name" : entryId})
+	 .val('');
+      currentEntry.find('button').removeClass('btn-add').addClass('btn-remove')
+	 .removeClass('btn-success').addClass('btn-danger')
+	 .html('<span class="glyphicon glyphicon-minus"></span>');
+   }).on('click', '.btn-remove', function(e) {
+      // Removes an item from a list and renames the fields
+      e.preventDefault();
+      var optionsSet = $(this).parents('#options');
+      $(this).parents('.input-group').remove();
+      optionsSet.children().each( function( index, element ){
+	 var entryId = "options-" + index.toString();
+	 $(element).find('input').attr({"id" : entryId, "name" : entryId});
+      });
+      return false;
+   });
+});
+</script>
+{% endblock %}
+
+
+{% macro calendar(field) %}
+<div class="input-group datetime"> 
+  {{ field(class="form-control datetime") }}
+  <span class="input-group-addon">
+    <span class="glyphicon glyphicon-calendar"></span>
+  </span>
+</div>
+{% endmacro %}
+
+{% macro help_and_desc(field) %}
+{% if field.errors or field.description %}
+<span class="help-block">
+  {% if field.errors %}
+  <span class="glyphicon glyphicon-alert"></span> {% for error in field.errors %}{{ error }}{% endfor %}
+  {% endif %}
+  {% if field.description %}<span class="glyphicon glyphicon-info-sign"></span> {{ field.description }}{% endif %}
+</span>
+{% endif %}
+{% endmacro %}
+
+{% macro render_field_h(field) %}
+<div class="form-group {% if field.errors %}has-error has-feedback{% endif %}">
+  {{ field.label(class="control-label col-sm-3") }}
+   <div class="col-sm-9">
+     {{ field(class="form-control") }}
+     {{ help_and_desc(field) }}
+   </div>
+</div>
+{% endmacro %}
+
+
+{% macro render_field_v(field, cl) -%}
+<div class="{% if field.errors %}has-error has-feedback{% endif %} {{cl}}">
+  {{ field.label(class="control-label") }}
+  {{ field(class="form-control") }}
+  {{ help_and_desc(field) }}
+</div>
+{%- endmacro %}
+
+
+
+{% block page_content %}
+<h2>{{_('Add a new voting')}}</h2>
+
+<div class="well">
+
+   <form id="edvoting" role="form" action="" method="POST"
+	   enctype="multipart/form-data" class="form-horizontal">
+
+     {{ form.hidden_tag() }}
+
+      <h3><span class="glyphicon glyphicon-triangle-right"></span>{{_('Voting configuration')}}</h3><hr>
+
+      {{ render_field_h(form.title) }}
+      {{ render_field_h(form.descr) }}
+      {{ render_field_h(form.roll)  }}
+      
+      <div class="form-group">
+	<div class="col-sm-offset-3 col-sm-3 {% if form.starts.errors %}has-error has-feedback{% endif %}">
+	  {{ form.starts.label(class="control-label") }}
+	  {{ calendar(form.starts) }}
+	  {{ help_and_desc(form.starts) }}
+	</div>
+	{{ render_field_v(form.duration, "col-sm-3") }}
+	{{ render_field_v(form.send_ballots, "col-sm-3") }}
+      </div>
+
+      <h3><span class="glyphicon glyphicon-triangle-right"></span>{{_('Ballot configuration')}}</h3><hr>
+      
+      {{ render_field_h(form.language) }}
+      {{ render_field_h(form.question) }}
+      {{ render_field_h(form.options) }}
+    
+      <div class="form-group">
+	 <div class="col-sm-offset-3 col-sm-4 {% if form.blanks_allowed.errors %}has-error has-feedback{% endif %}">
+	   <label for="{{ form.blanks_allowed.id }}" class="control-label">
+	     {{ form.blanks_allowed.label.text }} 
+	     {{ form.blanks_allowed() }} 
+	   </label>
+	   {{ help_and_desc(form.blanks_allowed) }}
+	 </div>
+
+	 {{ render_field_v(form.max_options, "col-sm-5") }}
+      </div>
+
+      <div class="form-group">
+	<div class="col-sm-offset-1 col-sm-11">
+	  {{ form.submit(class="btn btn-success") }}
+	 </div>
+      </div>
+      
+   </form>
+
+</div>
+
+
+
+  
+
+{% endblock %}

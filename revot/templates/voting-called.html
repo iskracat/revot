@@ -1,0 +1,17 @@
+{# -*- engine: jinja -*- #}
+
+{% extends "voting-base.html" %}
+
+{% block voting_content %}
+
+<h3>{{_('Enrolled voters')}}</h3>
+{% if voters %}
+<ol>
+  {% for v in voters %}
+  <li>{{v.name}}</li>
+  {% endfor %}
+</ol>
+{% else %}
+<p> {{_('No enrolled voters yet')}}</p>
+{% endif %}
+{% endblock %}

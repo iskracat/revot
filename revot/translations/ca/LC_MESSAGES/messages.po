@@ -1,0 +1,469 @@
+# Catalan translations for PROJECT.
+# Copyright (C) 2015 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-10-19 00:24+0200\n"
+"PO-Revision-Date: 2015-10-19 00:37+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ca\n"
+"Language-Team: ca <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.1.1\n"
+
+#: models.py:177
+msgid "Blank vote"
+msgstr "Vot en blanc"
+
+#: main/forms.py:32
+msgid "Vote"
+msgstr "Votació"
+
+#: main/forms.py:41
+#, python-format
+msgid "You must choose between %s and %s options"
+msgstr "Heu de triar entre %s i %s opcions."
+
+#: main/forms.py:118
+msgid "Id"
+msgstr "Identificador"
+
+#: main/forms.py:120
+msgid "Public identifier used for the voting (max 20 chars)."
+msgstr "Identificador públic usat per a la votació (màx 20 car.)."
+
+#: main/forms.py:122
+msgid "Language"
+msgstr "Llengua"
+
+#: main/forms.py:123
+msgid "Ballots will be written in this language."
+msgstr "La papereta s'escriurà en aquesta llengua."
+
+#: main/forms.py:125
+msgid "Description"
+msgstr "Descripció"
+
+#: main/forms.py:127
+msgid "A short description of the voting (max 100 chars)."
+msgstr "Una descripció resumida de la votació (màx 100 car.)."
+
+#: main/forms.py:129
+msgid "Voting roll"
+msgstr "Cens"
+
+#: main/forms.py:133
+msgid "Wrong data format."
+msgstr "Dades en un format erroni."
+
+#: main/forms.py:134
+msgid "List of <email>, <name> for people enrolled in this voting."
+msgstr "Persones del cens en format <email>, <nom>"
+
+#: main/forms.py:136
+msgid "Voting opens at"
+msgstr "La votació comença"
+
+#: main/forms.py:139
+msgid "Voting duration"
+msgstr "Durada de la votació"
+
+#: main/forms.py:141
+msgid "The voting is open during this time."
+msgstr "La votació estarà oberta durant aquest temps."
+
+#: main/forms.py:143
+msgid "Send ballots"
+msgstr "Enviament de paperetes"
+
+#: main/forms.py:145
+msgid "Send ballots this time before opening the voting."
+msgstr "Les paperetes s'envien aquest temps abans de començar la votació"
+
+#: main/forms.py:147
+msgid "Question"
+msgstr "Pregunta"
+
+#: main/forms.py:149
+msgid "The question printed in the ballot."
+msgstr "La pregunta que es formula a la papereta."
+
+#: main/forms.py:154
+msgid "Options"
+msgstr "Opcions"
+
+#: main/forms.py:155
+msgid "During the voting, a voter must choose from these options."
+msgstr "El votant escull d'entre aquestes opcions."
+
+#: main/forms.py:157
+msgid "Blank votes are allowed"
+msgstr "Es permet el vot en blanc."
+
+#: main/forms.py:160
+msgid "Max. choices"
+msgstr "Màx opcions"
+
+#: main/forms.py:163
+msgid "In a ballot, a voter can mark at most this number of options."
+msgstr "Un votant pot triar, com a molt, aquest nombre d'opcions."
+
+#: main/forms.py:165
+msgid "Add this voting"
+msgstr "Afegiu aquesta votació"
+
+#: main/forms.py:170
+msgid "All option fields are required."
+msgstr "Empleneu tots els camps d'opció."
+
+#: main/forms.py:183
+#, python-format
+msgid "Need to send ballots at least {0:d} minutes before voting begins."
+msgstr "Cal enviar paperetes ben bé {0:d} minuts abans que comenci la votació."
+
+#: main/forms.py:187
+msgid "Not enough time before voting starts."
+msgstr "No hi ha prou temps abans que comenci la votació."
+
+#: main/forms.py:191
+msgid "Must be between 1 and the number of options."
+msgstr "Ha d'estar entre 1 i el nombre d'opcions."
+
+#: main/tasks.py:100
+#, python-format
+msgid "Ballot for voting %(title)s"
+msgstr "Papereta per a la votació %(title)s"
+
+#: main/views.py:73
+msgid "Voting is not open yet. You cannot vote until it opens."
+msgstr "La votació encara no és oberta. No podeu votar fins que s'obri."
+
+#: main/views.py:76
+msgid "Voting is closed. No more votes allowed."
+msgstr "La votació està tancada. No es permeten més vots."
+
+#: main/views.py:94
+msgid "Thank you for voting"
+msgstr "Gràcies pel seu vot."
+
+#: main/views.py:108
+msgid "5 minutes"
+msgstr "5 minuts"
+
+#: main/views.py:109
+msgid "half an hour"
+msgstr "mitja hora"
+
+#: main/views.py:110
+msgid "1 hour"
+msgstr "1 hora"
+
+#: main/views.py:111
+msgid "3 hours"
+msgstr "3 hores"
+
+#: main/views.py:112
+msgid "6 hours"
+msgstr "6 hores"
+
+#: main/views.py:113
+msgid "12 hours"
+msgstr "12 hores"
+
+#: main/views.py:114
+msgid "1 day"
+msgstr "1 dia"
+
+#: main/views.py:115
+msgid "2 days"
+msgstr "2 dies"
+
+#: main/views.py:116
+msgid "3 days"
+msgstr "3 dies"
+
+#: main/views.py:118
+msgid "now"
+msgstr "ara"
+
+#: main/views.py:119
+msgid "6 hours before"
+msgstr "6 hores abans"
+
+#: main/views.py:120
+msgid "12 hours before"
+msgstr "12 hores abans"
+
+#: main/views.py:121
+msgid "1 day before"
+msgstr "1 dia abans"
+
+#: main/views.py:122
+msgid "2 days before"
+msgstr "2 dies abans"
+
+#: main/views.py:123
+msgid "3 days before"
+msgstr "3 dies abans"
+
+#: main/views.py:124
+msgid "4 days before"
+msgstr "4 dies abans"
+
+#: navigation/topbar.py:8 templates/current-votings.html:10
+msgid "Current votings"
+msgstr "Votacions en curs"
+
+#: navigation/topbar.py:9
+msgid "Define a voting"
+msgstr "Definiu una votació"
+
+#: templates/ballot_message.txt:2
+#, python-format
+msgid ""
+"Hello %(name)s,\n"
+"\n"
+"You have been enrolled in the voting identified as «%(id)s».\n"
+"\n"
+"The polling station will remain open from %(s)s to %(e)s (Manresa time). "
+"To cast your ballot please follow the following link while polling "
+"station is open."
+msgstr ""
+"Hola %(name)s,\n"
+"\n"
+"Formeu part del cens electoral de la votació identificada com «%(id)s».\n"
+"\n"
+"La mesa electoral esdevindrà oberta de %(s)s fins %(e)s (hora de "
+"Manresa). Per votar seguiu el següent enllaç mentre la mesa sigui oberta."
+
+#: templates/ballot_message.txt:12
+msgid "For you interest, we show below the ballot corresponding to this voting."
+msgstr ""
+"Pel vostre interès, seguidament us mostrem la papereta que correspon a "
+"aquesta votació."
+
+#: templates/ballot_message.txt:16
+#, python-format
+msgid "You will be commited to choose one option.\n"
+msgid_plural ""
+"\n"
+"You will be commited to choose a maximum of %(m)s options."
+msgstr[0] "Esteu convidat a triar una opció.\n"
+msgstr[1] ""
+"\n"
+"Esteu convidat a triar un màxim de %(m)s opcions."
+
+#: templates/ballot_message.txt:22
+msgid "Blank votes are allowed."
+msgstr "Es permet el vot en blanc."
+
+#: templates/ballot_message.txt:24
+msgid "Blank votes are not allowed."
+msgstr "No es permet el vot en blanc."
+
+#: templates/cast-ballot.html:7
+#, python-format
+msgid "Polling station for «%s»"
+msgstr "Mesa electoral per a «%s»"
+
+#: templates/common-macros.html:10
+msgid "Called"
+msgstr "Convocada"
+
+#: templates/common-macros.html:14
+msgid "Sending ballots"
+msgstr "Enviant paperetes"
+
+#: templates/common-macros.html:18
+msgid "Open"
+msgstr "Oberta"
+
+#: templates/common-macros.html:22
+msgid "Closed"
+msgstr "Tancada"
+
+#: templates/current-votings.html:16
+msgid "Voting"
+msgstr "Votació"
+
+#: templates/current-votings.html:17 templates/voting-base.html:29
+msgid "Starts"
+msgstr "Comença"
+
+#: templates/current-votings.html:18 templates/voting-base.html:30
+msgid "Ends"
+msgstr "Acaba"
+
+#: templates/current-votings.html:19 templates/voting-base.html:31
+msgid "State"
+msgstr "Estat"
+
+#: templates/current-votings.html:32
+msgid "No current votings now"
+msgstr "No hi ha cap votació en curs"
+
+#: templates/edit-voting.html:137
+msgid "Add a new voting"
+msgstr "Afegiu una votació"
+
+#: templates/edit-voting.html:146
+msgid "Voting configuration"
+msgstr "Configuració de la votació"
+
+#: templates/edit-voting.html:162
+msgid "Ballot configuration"
+msgstr "Configuració de la papereta"
+
+#: templates/voting-base.html:11
+msgid "Vote details"
+msgstr "Detall de la votació"
+
+#: templates/voting-base.html:16
+msgid "Call for voting"
+msgstr "Convocatòria de la votació"
+
+#: templates/voting-base.html:27
+msgid "Officer"
+msgstr "Responsable"
+
+#: templates/voting-base.html:28
+msgid "Ballot sending"
+msgstr "Enviament de paperetes"
+
+#: templates/voting-called.html:7
+msgid "Enrolled voters"
+msgstr "Censats"
+
+#: templates/voting-called.html:15
+msgid "No enrolled voters yet"
+msgstr "Encara no hi ha votants al cens"
+
+#: templates/voting-open.html:7
+msgid "Info"
+msgstr "Informació"
+
+#: templates/voting-open.html:9
+msgid "The current state of the vote do not allows to show more information."
+msgstr "L'estat actual de la votació no permet mostrar el cens."
+
+#: templates/voting-open.html:10
+msgid "The vote result will be publicited in this page begining at"
+msgstr "Els resultats d'aquesta votació es faran publics en aquesta mateixa pàgina"
+
+#: templates/voting-result.html:45
+msgid "Count"
+msgstr "Recompte"
+
+#: templates/voting-result.html:51
+msgid "Charts"
+msgstr "Gràfiques"
+
+#: templates/voting-result.html:56
+msgid "Ballot box content"
+msgstr "Contingut de l'urna"
+
+#: templates/voting-result.html:68
+msgid "Turnout"
+msgstr "Participació"
+
+#: templates/voting-result.html:74
+msgid "Enrolled"
+msgstr "Censats"
+
+#: templates/voting-result.html:75 templates/voting-result.html:105
+msgid "Votes"
+msgstr "Vots"
+
+#: templates/voting-result.html:76
+msgid "Abstentions"
+msgstr "Abstencions"
+
+#: templates/voting-result.html:81
+msgid "Number"
+msgstr "Nombre"
+
+#: templates/voting-result.html:87
+msgid "Percent"
+msgstr "Percentatge"
+
+#: templates/voting-result.html:99
+msgid "Results"
+msgstr "Resultat"
+
+#: templates/voting-result.html:104
+msgid "Option"
+msgstr "Opció"
+
+#: templates/voting-result.html:106
+msgid "Percent over all votes"
+msgstr "Percentatge sobre emesos"
+
+#: templates/voting-result.html:129
+msgid "Number of votes per option"
+msgstr "Vots per opció"
+
+#: templates/voting-result.html:141
+msgid "Voter"
+msgstr "Votant"
+
+#: templates/voting-result.html:142
+msgid "Ballot cast on"
+msgstr "Vot dipositat el"
+
+#: templates/voting-result.html:143
+msgid "Choice"
+msgstr "Tria"
+
+#: templates/welcome.html:44
+msgid "Do you want to call for voting?"
+msgstr "Voleu convocar una votació?"
+
+#: templates/welcome.html:47
+msgid "ReVot is a free e-vote service that makes simple to set up a vote."
+msgstr "ReVot és un servei d'e-vot lliure que fa senzill convocar una votació."
+
+#: templates/welcome.html:48
+msgid "Confidence requires to stay simple. ReVot is simple."
+msgstr "La confiança demana simplicitat. ReVot és simple."
+
+#: templates/welcome.html:52
+msgid "Go!"
+msgstr "Endavant!"
+
+#~ msgid "Title"
+#~ msgstr ""
+
+#~ msgid "Vote data for"
+#~ msgstr "Dades de la votació"
+
+#~ msgid "Vote results"
+#~ msgstr "Resultat de la votació"
+
+#~ msgid "Results charts"
+#~ msgstr "Gràfics dels resultats"
+
+#~ msgid "Ballot box contents"
+#~ msgstr "Contingut de l'urna"
+
+#~ msgid ""
+#~ msgstr ""
+
+#~ msgid "The time while voting is open."
+#~ msgstr "L'urna és oberta aquesta estona."
+
+#~ msgid "Voting id"
+#~ msgstr "Identificador de la votació"
+
+#~ msgid "Ballot options"
+#~ msgstr "Opcions"
+
+#~ msgid "Current votes"
+#~ msgstr "Votacions en curs"
+

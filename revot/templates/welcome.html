@@ -1,0 +1,59 @@
+{# -*- engine: jinja -*- #}
+{% extends "bootstrap/base.html" %}
+
+{% block title %}ReVot - vote selfservice{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{#
+{% block scripts %}
+  {{ super() }}
+  {{ moment.include_moment() }}
+{% endblock %}
+
+{% block navbar %}
+  {{ nav.top.render() }}
+{% endblock %}
+#}
+
+{% block styles %}
+  {{ super() }}
+  <style>
+  /* http://css-tricks.com/perfect-full-page-background-image */
+  /* http://sixrevisions.com/css/responsive-background-image */
+  body {
+    background: url(http://dades.grupnaciodigital.com/redaccio/arxius/imatges/201410/990_1414612746990_1411926497Generalitat-prototipo-urna-consulta-noviembre_TINIMA20140523_0731_3-3.jpg) no-repeat center center fixed; 
+    background-size: cover;
+    color: rgb(80,80,80);
+    padding-top: 30px;
+  }
+  .jumbotron {
+    background: rgb(200,200,200);
+    opacity: 0.85;
+  }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid" >
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+	<div class="jumbotron text-center">
+	  <h1>
+	    {{_('Do you want to call for voting?')}}
+	  </h1>
+	  
+	  <p>{{_('ReVot is a free e-vote service that makes simple to set up a vote.')}}</p>
+	  <p>{{_('Confidence requires to stay simple. ReVot is simple.')}}</p>
+
+	  <p>
+	    <a class="btn btn-default btn-lg btn-warning" href="{{vote_page}}">
+	      {{_('Go!')}}
+	    </a>
+	  </p>
+	</div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

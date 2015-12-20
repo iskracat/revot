@@ -1,0 +1,29 @@
+{# -*- engine: jinja -*- #}
+
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<h2>{{_('Polling station for «%s»') % voting.title}}</h2>
+
+
+<div class="well">
+  <p>{{ballot.description}}</p>
+
+  {% if form.options.errors %}
+  <ul class="alert alert-danger">
+    {% for error in form.options.errors %}
+    <p>{{error|e}}</p>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <form role="form" action="" method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{form.options(class="form-control")}}
+    </div>
+    {{form.submit(class="btn btn-success")}}
+  </form>
+</div>
+{% endblock %}

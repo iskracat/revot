@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+
+{% block page_content %}
+<h2>Ballot for {{b.voting.title}} voting</h2>
+
+<p>{{b.description}}</p>
+
+<p>Choose between {{b.Nmin}} and {{b.Nmax}} of this options</p>
+<ul>
+{% for o in b.options %}
+<li>{{o}}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

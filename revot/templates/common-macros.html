@@ -1,0 +1,25 @@
+{# -*- engine: jinja -*- #}
+
+{#
+   Renders the pill corresponding to a voting state
+#}
+
+{% macro state_pill(v) -%}
+  {% if v.state == 0 %}
+    <span class="label label-default">
+      {{ _('Called') }}
+    </span>
+  {% elif v.state == 1 %}
+    <span class="label label-warning">
+      {{ _('Sending ballots') }}
+    </span>
+  {% elif v.state == 2 %}
+    <span class="label label-success">
+      {{ _('Open') }}
+    </span>
+  {% else %}
+    <span class="label label-danger">
+      {{ _('Closed') }}
+    </span>
+  {% endif %}
+{%- endmacro %}

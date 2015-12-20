@@ -1,0 +1,14 @@
+{# -*- engine: jinja -*- #}
+
+{% extends "voting-base.html" %}
+
+{% block voting_content %}
+  <div class="alert alert-info">
+    <h4>{{_('Info')}}</h4>
+    <p>
+      {{_('The current state of the vote do not allows to show more information.')}}
+      {{_('The vote result will be publicited in this page begining at')}}
+      {{moment(voting.end_voting).calendar()}}
+    </p>
+  </div>
+{% endblock %}
