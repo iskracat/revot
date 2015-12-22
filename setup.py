@@ -64,7 +64,8 @@ setup(
         'visitor==0.1.2',
         'wsgiref==0.1.2',
         'Flask-Login==0.3.2',
-        'flask-bcrypt'
+        'hmac',
+        'crypt'
     ],
     entry_points="""
     [console_scripts]

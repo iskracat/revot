@@ -4,15 +4,14 @@ from datetime import datetime as dt, timedelta as delta
 from revot import db
 from revot.models import Voting, Voter, Ballot, Vote, User
 from revot.populate import populate
-from flask.ext.bcrypt import Bcrypt
+import crypt
 
 
 @populate.route('/resetdb')
 def reset_database():
     db.drop_all()
     db.create_all()
-    bcrypt = Bcrypt()
-    u = User(id='admin', password=bcrypt.generate_password_hash('123456'))
+    u = User(id='admin', password=crypt.crypt('123456', 'SLA'))
     db.session.add(u)
     db.session.commit()
 
