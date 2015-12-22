@@ -64,8 +64,7 @@ setup(
         'visitor==0.1.2',
         'wsgiref==0.1.2',
         'Flask-Login==0.3.2',
-        'hmac',
-        'crypt'
+        'hmac'
     ],
     entry_points="""
     [console_scripts]
