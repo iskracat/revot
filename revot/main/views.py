@@ -45,7 +45,7 @@ def login():
         u = db.session.query(User).filter(User.id == form.user.data).first()
 
         if u:
-            if hashlib.md5("form.password.data").digest() == u.password:
+            if hashlib.md5(form.password.data).hexdigest() == u.password:
                 login_user(u)
                 flash('Logged in successfully.')
                 return redirect(url_for('main.show_all_votings'))
