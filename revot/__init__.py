@@ -87,8 +87,6 @@ def create_app(config):
     babel.init_app(app)
     login_manager.init_app(app)
 
-    import pdb; pdb.set_trace()
-    
     # Register blueprints
     from main import main as main_blueprint
     app.register_blueprint(main_blueprint)
