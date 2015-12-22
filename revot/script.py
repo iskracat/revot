@@ -10,11 +10,11 @@ from revot import create_app
 
 etc = partial(os.path.join, 'parts', 'etc')
 
-DEPLOY_INI = etc('deploy.ini')
-DEPLOY_CFG = etc('deploy.cfg')
+DEPLOY_INI = 'production.ini'
+DEPLOY_CFG = 'production.cfg'
 
-DEBUG_INI = etc('debug.ini')
-DEBUG_CFG = etc('debug.cfg')
+DEBUG_INI = 'development.ini'
+DEBUG_CFG = 'development.cfg'
 
 _buildout_path = __file__
 
@@ -28,9 +28,7 @@ del _buildout_path
 
 # bin/paster serve parts/etc/deploy.ini
 def make_app(global_conf={}, config=DEPLOY_CFG, debug=False):
-    app = create_app('production')
-    # app.config.from_pyfile(abspath(config))
-    # app.debug = debug
+    app = create_app(DEPLOY_CFG)
     return app
 
 
@@ -54,7 +52,7 @@ def make_shell():
 
 def _init_db(debug=False, dry_run=False):
     """Initialize the database."""
-    from hello import init_db
+    from revot.populate.views import reset_database
     print 'init_db()'
     if dry_run:
         return
@@ -64,7 +62,7 @@ def _init_db(debug=False, dry_run=False):
     else:
         make_app()
     # Create the tables
-    init_db()
+    reset_database()
 
 
 def _serve(action, debug=False, dry_run=False):
@@ -73,10 +71,10 @@ def _serve(action, debug=False, dry_run=False):
         # First, create the tables
         return _init_db(debug=debug, dry_run=dry_run)
     if debug:
-        config = DEBUG_INI
+        config = abspath(DEBUG_INI)
     else:
-        config = DEPLOY_INI
-    argv = ['bin/gunicorn', '--paste', config]
+        config = abspath(DEPLOY_INI)
+    argv = ['bin/gunicorn', '--paste', 'serve', config]
     if action in ('start', 'restart'):
         argv += [action, '--daemon']
     elif action in ('', 'fg', 'foreground'):

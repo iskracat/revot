@@ -7,7 +7,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask_nav import Nav
 from flask_mail import Mail
 from celery import Celery as CeleryClass
-from config import config, Config
+from functools import partial
+import os
 
 
 class Celery(CeleryClass):
@@ -52,6 +53,12 @@ mail = Mail()
 babel = Babel()
 login_manager = LoginManager()
 
+_buildout_path = __file__
+
+for i in range(2 + __name__.count('.')):
+    _buildout_path = os.path.dirname(_buildout_path)
+
+abspath = partial(os.path.join, _buildout_path)
 
 
 @login_manager.user_loader
@@ -60,15 +67,16 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-def create_app(config_name):
+def create_app(config):
     """
     Flask app factory. Creates an app for Flask application after setting
     up configurations, Flask extensions and project blueprints,
     """
     app = Flask('revot')
 
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+    # app.config.from_object(config)
+    app.config.from_pyfile(abspath(config))
+    # config[config_name].init_app(app)
 
     bootstrap.init_app(app)
     moment.init_app(app)

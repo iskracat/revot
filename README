@@ -1,2 +1,19 @@
 ReVot
 =====
+
+To start in development with Docker
+-----------------------------------
+
+# docker-compose up
+# python bootstrap.py
+# ./bin/buildout -v
+
+Initialize DB
+-------------
+
+./bin/flask-ctl serve initdb
+
+Run ReVot
+---------
+
+# ./bin/gunicorn --paste development.ini

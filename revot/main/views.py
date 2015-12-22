@@ -78,6 +78,11 @@ def show_all_votings():
 def show_voting(ident):
     # FALTA considerar l'owner
     voting = get_object_or_404(Voting, Voting.id == ident)
+
+    # If owner is not current
+    if voting.owner != current_user.id:
+        abort(500)
+
     # Voting view depends on state
     if voting.state == 0:
         # Called to vote
@@ -148,7 +153,7 @@ def do_vote(ident, person):
         voter.ballot_received = dt.utcnow()
         voter.do_vote(*form.options.data)
         flash(gettext('Thank you for voting'))
-        return redirect(url_for('main.show_voting', ident=ident))
+        return redirect(url_for('main.welcome'))
     # send TEMPLATE
     return render_template('cast-ballot.html',
                            form=form,

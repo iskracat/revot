@@ -2,3 +2,9 @@ redis:
   image: redis
   ports:
   - "6379:6379"
+db:
+  image: postgres:9
+  environment:
+  - POSTGRES_PASSWORD=secret
+  ports:
+  - "5432:5432"
