@@ -192,7 +192,7 @@ def add_voting():
     if form.validate_on_submit():
         # Process relative times
         if form.send_ballots.data < 0:
-            balloting_starts = dt.utcnow() + delta(minutes=1)
+            balloting_starts = dt.now() + delta(minutes=1)
         else:
             balloting_starts = form.starts.data - delta(
                 minutes=form.send_ballots.data)
