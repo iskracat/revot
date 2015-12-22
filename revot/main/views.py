@@ -12,8 +12,6 @@ from tasks import activate_balloting
 from flask.ext.babel import gettext
 from flask.ext.login import login_required, login_user
 from flask.ext.login import logout_user, current_user
-from hmac import compare_digest as compare_hash
-import crypt
 
 
 @main.before_request
@@ -46,7 +44,7 @@ def login():
         u = db.session.query(User).filter(User.id == form.user.data).first()
 
         if u:
-            if compare_hash(u.password, crypt.crypt(form.password.data, u.password)):
+            if form.password.data == u.password:
                 login_user(u)
                 flash('Logged in successfully.')
                 return redirect(url_for('main.show_all_votings'))
