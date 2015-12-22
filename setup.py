@@ -57,7 +57,7 @@ setup(
         'python-dateutil==2.4.2',
         'pytz==2015.6',
         'redis==2.10.3',
-        'six==1.9.0',
+        'six==1.10.0',
         'snowballstemmer==1.2.0',
         'speaklater==1.3',
         'sphinx-rtd-theme==0.1.9',
