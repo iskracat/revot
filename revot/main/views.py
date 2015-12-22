@@ -60,8 +60,12 @@ def login():
 
 @main.route('/')
 def welcome_users():
-    vote_page = url_for('main.show_all_votings')
-    return render_template('welcome.html', vote_page=vote_page, login=login)
+    if current_user:
+        vote_page = url_for('main.show_all_votings')
+    else:
+        vote_page = url_for('main.login')
+
+    return render_template('welcome.html', vote_page=vote_page)
 
 
 @main.route('/voting')
