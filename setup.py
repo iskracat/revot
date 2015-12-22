@@ -21,8 +21,8 @@ setup(
     author_email='',
     url='',
     license='',
-    package_dir={'': 'src'},
-    packages=find_packages('src'),
+    package_dir={'': '.'},
+    packages=find_packages('.'),
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -57,13 +57,14 @@ setup(
         'python-dateutil==2.4.2',
         'pytz==2015.6',
         'redis==2.10.3',
-        'six==1.10.0',
+        'six==1.9.0',
         'snowballstemmer==1.2.0',
         'speaklater==1.3',
         'sphinx-rtd-theme==0.1.9',
         'visitor==0.1.2',
         'wsgiref==0.1.2',
-        'Flask-Login=0.3.2'
+        'Flask-Login==0.3.2',
+        'flask-bcrypt'
     ],
     entry_points="""
     [console_scripts]

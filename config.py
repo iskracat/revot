@@ -15,8 +15,8 @@ class Config(object):
     READY_TO_SEND_BALLOTS_IN_MINUTES = 20
     MIN_TIME_TO_SEND_BALLOTS_IN_MINUTES = 60
     # Celery settings
-    CELERY_BROKER_URL='redis://localhost'
-    CELERY_RESULT_BACKEND='redis://localhost'
+    CELERY_BROKER_URL='redis://192.168.99.100'
+    CELERY_RESULT_BACKEND='redis://192.168.99.100'
     CELERY_ACCEPT_CONTENT = ['json']
     CELERY_TASK_SERIALIZER = 'json'
     CELERY_RESULT_SERIALIZER = 'json'

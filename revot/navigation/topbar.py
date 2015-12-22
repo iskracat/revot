@@ -7,4 +7,5 @@ nav.register_element('top', Navbar(
     View('ReVot', 'main.welcome_users'),
     View(lazy_gettext('Current votings'), 'main.show_all_votings'),
     View(lazy_gettext('Define a voting'), 'main.add_voting'),
+    View(lazy_gettext('Logout'), 'main.logout'),
 ))

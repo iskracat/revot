@@ -6,6 +6,7 @@ from functools import partial
 
 import paste.script.command
 import werkzeug.script
+from revot import create_app
 
 etc = partial(os.path.join, 'parts', 'etc')
 
@@ -16,18 +17,20 @@ DEBUG_INI = etc('debug.ini')
 DEBUG_CFG = etc('debug.cfg')
 
 _buildout_path = __file__
-for i in range(2 + __name__.count('.')):
+
+for i in range(1 + __name__.count('.')):
     _buildout_path = os.path.dirname(_buildout_path)
 
 abspath = partial(os.path.join, _buildout_path)
+
 del _buildout_path
 
 
 # bin/paster serve parts/etc/deploy.ini
 def make_app(global_conf={}, config=DEPLOY_CFG, debug=False):
-    from hello import app
-    app.config.from_pyfile(abspath(config))
-    app.debug = debug
+    app = create_app('production')
+    # app.config.from_pyfile(abspath(config))
+    # app.debug = debug
     return app
 
 
@@ -73,7 +76,7 @@ def _serve(action, debug=False, dry_run=False):
         config = DEBUG_INI
     else:
         config = DEPLOY_INI
-    argv = ['bin/paster', 'serve', config]
+    argv = ['bin/gunicorn', '--paste', config]
     if action in ('start', 'restart'):
         argv += [action, '--daemon']
     elif action in ('', 'fg', 'foreground'):

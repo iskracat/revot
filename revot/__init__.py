@@ -2,13 +2,12 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask.ext.moment import Moment
 from flask.ext.babel import Babel
+from flask.ext.login import LoginManager
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_nav import Nav
 from flask_mail import Mail
 from celery import Celery as CeleryClass
 from config import config, Config
-
-
 
 
 class Celery(CeleryClass):
@@ -44,22 +43,21 @@ class Celery(CeleryClass):
         # Update the config
         self.conf.update(app.config)
 
-
-
 bootstrap = Bootstrap()
-moment    = Moment()
-db        = SQLAlchemy()
-nav       = Nav()
-celery    = Celery()
-mail      = Mail()
-babel     = Babel()
+moment = Moment()
+db = SQLAlchemy()
+nav = Nav()
+celery = Celery()
+mail = Mail()
+babel = Babel()
 login_manager = LoginManager()
+
 
 
 @login_manager.user_loader
 def load_user(user_id):
     from revot.models import User
-    return User.get(user_id)
+    return User.query.get(user_id)
 
 
 def create_app(config_name):
@@ -68,6 +66,7 @@ def create_app(config_name):
     up configurations, Flask extensions and project blueprints,
     """
     app = Flask('revot')
+
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 

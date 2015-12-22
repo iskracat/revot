@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% macro help_and_desc(field) %}
+{% if field.errors or field.description %}
+<span class="help-block">
+  {% if field.errors %}
+  <span class="glyphicon glyphicon-alert"></span> {% for error in field.errors %}{{ error }}{% endfor %}
+  {% endif %}
+  {% if field.description %}<span class="glyphicon glyphicon-info-sign"></span> {{ field.description }}{% endif %}
+</span>
+{% endif %}
+{% endmacro %}
+
+
+{% macro render_field_h(field) %}
+<div class="form-group {% if field.errors %}has-error has-feedback{% endif %}">
+  {{ field.label(class="control-label col-sm-3") }}
+   <div class="col-sm-9">
+     {{ field(class="form-control") }}
+     {{ help_and_desc(field) }}
+   </div>
+</div>
+{% endmacro %}
+
+{% block page_content %}
+<div class="well">
+
+  <form id="login" role="form" action="" method="POST"
+    enctype="multipart/form-data" class="form-horizontal">
+    {{ form.csrf_token }}
+    {{ render_field_h(form.user) }}
+    {{ render_field_h(form.password) }}
+    {{ form.submit(class="btn btn-success") }}
+  </form>
+</div>
+
+{% endblock %}
