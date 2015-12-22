@@ -219,8 +219,7 @@ class Vote(db.Model):
 
     voter_id = db.Column(
         db.Integer,
-        db.ForeignKey('voters.id'),
-        primary_key=True)
+        db.ForeignKey('voters.id'))
     vote = db.Column(db.SmallInteger, primary_key=True, nullable=True)
 
     def __init__(self, vote=-1):
