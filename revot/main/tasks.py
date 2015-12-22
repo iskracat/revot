@@ -30,7 +30,7 @@ RANDOM_ID_LENGTH = 12
 def activate_balloting(voting_id, when):
     return start_balloting_task.apply_async(
         (voting_id,),
-        eta=when+delta(seconds=2))
+        eta=when+delta(seconds=10))
 
 
 @celery.task
