@@ -12,6 +12,7 @@ from tasks import activate_balloting
 from flask.ext.babel import gettext
 from flask.ext.login import login_required, login_user
 from flask.ext.login import logout_user, current_user
+import hashlib
 
 
 @main.before_request
@@ -44,7 +45,7 @@ def login():
         u = db.session.query(User).filter(User.id == form.user.data).first()
 
         if u:
-            if form.password.data == u.password:
+            if hashlib.md5("form.password.data").digest() == u.password:
                 login_user(u)
                 flash('Logged in successfully.')
                 return redirect(url_for('main.show_all_votings'))
@@ -58,7 +59,7 @@ def login():
 
 @main.route('/')
 def welcome_users():
-    if current_user:
+    if current_user.is_authenticated:
         vote_page = url_for('main.show_all_votings')
     else:
         vote_page = url_for('main.login')
